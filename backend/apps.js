@@ -39,26 +39,26 @@ app.get('/', (req, res) => {
 })
 
 
-// app.post('/login', (req, res) => {
-//   const { email, password } = req.body;
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
 
-//   if (!email || !password) {
-//     return res.status(401).json({ message: "Enter email and password" });
-//   }
+  if (!email || !password) {
+    return res.status(401).json({ message: "Enter email and password" });
+  }
 
-//   const existingUser = USERS.find(
-//     (obj) => obj.hasOwnProperty("email") && obj.email === email && obj.password === password
-//   );
+  const existingUser = USERS.find(
+    (obj) => obj.hasOwnProperty("email") && obj.email === email && obj.password === password
+  );
 
-//   if (existingUser) {
-//     return res.status(200).json({ message: "You are logged in" });
-//   } else {
-//     return res.status(401).json({ message: "Invalid email or password" });
-//   }
-// });
-// app.get('/signin', (req, res) => {
-//   res.send('i am login')
-// })
+  if (existingUser) {
+    return res.status(200).json({ message: "You are logged in" });
+  } else {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
+});
+app.get('/signin', (req, res) => {
+  res.send('i am login')
+})
 
 
 

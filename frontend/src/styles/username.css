@@ -1,35 +1,148 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-.glass{
-    background: rgba(255, 255, 255, 0.55);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px #4747470b;
-    backdrop-filter: blur(7.1px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    @apply border-4 border-gray-50 shrink-0 h-3/4 w-[30%] rounded-3xl py-20 px-7 min-w-max;
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px #4747470b;
+  backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  @apply border-4 border-gray-50 shrink-0 h-3/4 w-[30%] rounded-3xl py-20 px-7 min-w-max;
 }
 
-.profile_img{
-    @apply border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer;
-    @apply hover:border-gray-200;
+.profile_img {
+  @apply border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer;
+  @apply hover:border-gray-200;
 }
 
-.textbox{
-    @apply border-0 px-5 py-4 rounded-xl w-3/4 shadow-sm text-lg;
-    @apply focus:outline-none;
-    
+.textbox {
+  @apply border-0 px-5 py-4 rounded-xl w-3/4 shadow-sm text-lg;
+  @apply focus:outline-none;
 }
 
-.btn{
-    @apply border bg-indigo-500 w-3/4 py-4 rounded-lg text-red-50 text-xl shadow-sm text-center ;
+.btn {
+  @apply border bg-indigo-500 w-3/4 py-4 rounded-lg text-red-50 text-xl shadow-sm text-center;
 }
 
-.btn:hover{
-    background-color: #ff6a6a;
+.btn:hover {
+  background-color: #ff6a6a;
 }
 
-input[type='file']{
-    display: none;
+input[type="file"] {
+  display: none;
+} */
+
+* {
+  margin: 0%;
+  padding: 0%;
 }
+.Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #9fa29f;
+  flex-direction: column;
+}
+.wrap {
+  width: 25%;
+  height: 70%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: #faf1e2;
+  border-radius: 30px;
+  -webkit-box-shadow: 8px 12.5px 10px 0.5px #737675;
+  -moz-box-shadow: 8px 12.5px 10px 0.5px #737675;
+  box-shadow: 8px 12.5px 10px 0.5px #737675;
+}
+.login {
+  width: 100%;
+  height: 1.5rem;
+  display: flex;
+  justify-content: end;
+}
+.login button {
+  margin: 0%;
+  padding: 2px 20px 0px 0px;
+  font-size: smaller;
+}
+.sigHead {
+  width: 100%;
+  height: 4rem;
+  font-size: large;
+  font-weight: 600;
+  padding: 20px;
+}
+.sigHead span {
+  padding: 10px 0px 10px 15px;
+}
+.autContainer {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 50%;
+  padding: 5px 0px 0px 20px;
+}
+.autContainer div {
+  margin-top: 15px;
+}
+.autContainer span,
+input {
+  width: 100%;
+  height: 2rem;
+  padding-left: 15px;
+  color: #757367;
+}
+.autContainer span {
+  /* font-size: small;
+  display: none; */
+}
+.autContainer input {
+  background-color: transparent;
+  border-bottom: 2px solid #333;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  padding: 0;
+  margin-left: 15px;
+}
+.submit {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.submit button {
+  width: 70%;
+  height: 2.2rem;
+  background-color: #000000;
+  border-radius: 50px;
+  color: #faf1e2;
+}
+.submit a {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.socialBut {
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.socialBut button {
+  border: 1px solid black;
+  padding: 7px;
+  width: 8rem;
+  border-radius: 50px;
+}
+
+/* #faf1e2 - wrap 
+#000000
+#9fa29f
+*/

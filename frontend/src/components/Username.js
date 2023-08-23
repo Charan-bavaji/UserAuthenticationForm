@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import avathar from "../assets/dp.jpg"
 import "../styles/username.css"
 
@@ -10,7 +10,9 @@ const Username = () => {
     <div className='Container'>
       <div className='wrap'>
         <div className='login'>
-          <button>Log in</button>
+          <Link to="/login">
+            <button>Log in</button>
+          </Link>
         </div>
         <div className='sigHead'>
           <span>
@@ -34,7 +36,7 @@ const Username = () => {
         </div>
         <div className='submit'>
           <button>Sign up</button>
-          <a href='#'>Or sign up with social account</a>
+          <span>Or sign up with social account</span>
         </div>
         <div className='socialBut'>
           <button>Facebook</button>

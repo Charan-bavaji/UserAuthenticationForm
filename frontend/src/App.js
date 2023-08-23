@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import PageNotFound from './components/PageNotFound';
+import Login from './components/Login';
 
 
 
@@ -16,6 +17,10 @@ function App() {
     {
       path: '/',
       element: <Username> Root Route</Username>
+    },
+    {
+      path: '/login',
+      element :<Login></Login>
     },
     {
       path: '/register',

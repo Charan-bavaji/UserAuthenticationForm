@@ -1,22 +1,24 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Username from './components/Username';
+import Signup from './components/Signup';
 import Password from './components/Password';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import PageNotFound from './components/PageNotFound';
 import Login from './components/Login';
-
-
-
+import Home from './components/Home';
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Username> Root Route</Username>
+      element: <Home> Root Route</Home>
+    },
+    {
+      path: '/signup',
+      element: <Signup> Root Route</Signup>
     },
     {
       path: '/login',

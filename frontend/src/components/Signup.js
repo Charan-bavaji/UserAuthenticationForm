@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 // import avathar from "../assets/dp.jpg"
 import "../styles/username.css"
 
-const Username = () => {
+const Signup = () => {
   //  Login Ui
 
   return (
@@ -21,13 +21,12 @@ const Username = () => {
         </div>
         <div className='autContainer'>
           <div>
-            <span>Your Email </span>
-            <input type="email" placeholder='email' />
-          </div>
-          <div>
-
             <span>Name</span>
             <input type='text' placeholder='Name' />
+          </div>
+          <div>
+            <span>Your Email </span>
+            <input type="email" placeholder='email' />
           </div>
           <div>
             <span>Password</span>
@@ -46,4 +45,4 @@ const Username = () => {
     </div>
   )
 }
-export default Username
+export default Signup

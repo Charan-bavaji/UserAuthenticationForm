@@ -4,6 +4,11 @@ const Login = () => {
     return (
         <div className='Container'>
             <div id='wrap1'>
+                <div className='login'>
+                    <Link to="/signup">
+                        <button>Signup</button>
+                    </Link>
+                </div>
                 <div className='sigHead'>
                     <span>
                         Login
@@ -21,10 +26,10 @@ const Login = () => {
                 </div>
                 <div className='submit'>
                     <Link to="/profile">
-                    <button id='loginbut'>Login</button>
+                        <button id='loginbut'>Login</button>
                     </Link>
                     <Link to='/recovery'>
-                    <span>Or login with social account</span>
+                        <span>Or login with social account</span>
                     </Link>
                 </div>
                 <div className='socialBut'>

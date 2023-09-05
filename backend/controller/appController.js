@@ -1,51 +1,63 @@
+const UserModel = require('../database/config')
 
-const User = [{
-    email: "charan@gmail.com",
-    username: "obito",
-    password: "1234"
-}];
-const home = (req, res) => {
-    res.status(201).json({ msg: "successfull" });
-}
-const bill = (req, res) => {
-    res.status(201).json({ msg: "Billlss" });
-}
-const signup = (req, res) => {
-    const { email, password, username } = req.body;
-    if (!email || !password || !username) {
-        return res.json({ mes: "enter a value" }).status(401);
-    } else if (User.find((x) => x.email === email)) {
-        return res.status(401).json({ message: "user already exist" });
+const home = async (req, res) => {
+    try {
+        const users = await UserModel.find({});
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
     }
-    User.push(
-        {
-            email,
-            username,
-            password
-        }
-    );
-    return res.json({ message: "Succfully signed" }).status(201);
-}
+};
 
-const login = (req, res) => {
-    const { email, password } = req.body;
+const signup = async (req, res) => {
 
-    if (!email || !password) {
-        res.json({ msg: "enter values" }).status(401);
+    const { name, email, password, } = req.body;
+
+    if (!name || !email || !password) {
+        res.status(401).json({ msg: "fields cannot be empty" })
     } else {
-        User.find((user) => {
-            if (user.email === email && user.password === password) {
-                res.json({ msg: "loginned...!" }).status(201);
-            } else {
-                res.json({ msg: "Invalied email or password" }).status(401);
-            }
-        })
-    }
-}
 
+        try {
+            // Check if the email is already in use
+            const existingUser = await UserModel.findOne({ email });
+
+            if (existingUser) {
+                return res.status(400).json({ message: 'User already exists' });
+            }
+            // Create a new user
+            const newUser = await UserModel.create({
+                name,
+                email,
+                password,
+            });
+
+            res.status(201).json({ message: 'User registered successfully' });
+        } catch (error) {
+            console.error('Error during signup:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+};
+const login = async (req,res)=>{
+    const {email,password} = req.body;
+
+    if(!email || !password){
+        res.status(401).json({msg:"Enter email or password"});
+    }else{
+    try{
+        const user = await UserModel.findOne({email,password});
+        if(email === user.email && password === user.password){
+            res.status(201).json({msg:"Loginned successfully"})
+        }
+    }catch(error){
+        res.status(401).json({msg:error})
+    }
+    }
+
+}
 module.exports = {
     home,
     signup,
-    login,
-    bill,
+    login
 }

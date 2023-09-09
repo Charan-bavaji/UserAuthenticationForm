@@ -8,6 +8,7 @@ backend/.env
 
 /.pnp
 .pnp.js
+dont.env
 
 # testing
 /coverage

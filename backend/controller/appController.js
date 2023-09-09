@@ -1,4 +1,4 @@
-const UserModel = require('../database/config')
+const UserModel = require('../database/config.js')
 
 const home = async (req, res) => {
     try {
@@ -31,28 +31,35 @@ const signup = async (req, res) => {
                 email,
                 password,
             });
+            const token = newUser.getJWTToken();
 
-            res.status(201).json({ message: 'User registered successfully' });
+            res.status(201).json({ message: 'User registered successfully', token });
+
         } catch (error) {
             console.error('Error during signup:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }
 };
-const login = async (req,res)=>{
-    const {email,password} = req.body;
+const login = async (req, res) => {
+    const { email, password } = req.body;
 
-    if(!email || !password){
-        res.status(401).json({msg:"Enter email or password"});
-    }else{
-    try{
-        const user = await UserModel.findOne({email,password});
-        if(email === user.email && password === user.password){
-            res.status(201).json({msg:"Loginned successfully"})
+    if (!email || !password) {
+        res.status(401).json({ msg: "Enter email or password" });
+    } else {
+        try {
+            const user = await UserModel.findOne({ email }).select("+password");
+            if (!user) {
+                res.status(401).json({ msg: "Invalied email or password" })
+            }
+            const isPasswordMatched = await user.comparePassword(password);
+            if (!isPasswordMatched) {
+                return next(new ErrorHander("Invalied email or password", 401));
+            }
+            res.status(201).json({ msg: "succfullly logined" })
+        } catch (error) {
+            res.status(401).json({ msg: error })
         }
-    }catch(error){
-        res.status(401).json({msg:error})
-    }
     }
 
 }

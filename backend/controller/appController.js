@@ -1,13 +1,15 @@
-const UserModel = require('../database/config.js')
+const UserModel = require('../database/config.js');
+const sendTockens = require('../utils/JwtTokens.js');
+
 
 const home = async (req, res) => {
-    try {
-        const users = await UserModel.find({});
-        res.json(users);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+    // try {
+    //     const users = await UserModel.find({});
+    //     res.json(users);
+    // } catch (err) {
+    //     console.error(err);
+    //     res.status(500).json({ error: 'Internal server error' });
+    // }
 };
 
 const signup = async (req, res) => {
@@ -26,14 +28,12 @@ const signup = async (req, res) => {
                 return res.status(400).json({ message: 'User already exists' });
             }
             // Create a new user
-            const newUser = await UserModel.create({
+            const user = await UserModel.create({
                 name,
                 email,
                 password,
             });
-            const token = newUser.getJWTToken();
-
-            res.status(201).json({ message: 'User registered successfully', token });
+            sendTockens(user, 201, res);
 
         } catch (error) {
             console.error('Error during signup:', error);
@@ -56,15 +56,30 @@ const login = async (req, res) => {
             if (!isPasswordMatched) {
                 return next(new ErrorHander("Invalied email or password", 401));
             }
-            res.status(201).json({ msg: "succfullly logined" })
+            sendTockens(user, 201, res);
+            
         } catch (error) {
             res.status(401).json({ msg: error })
         }
     }
+};
 
+// Log Out
+
+const logout = (req,res,next)=>{
+    res.cookie("token",null,{
+        expires:new Date(Date.now()),
+        httpOnly:true,
+    });
+    res.status(200).json({
+        success:true,
+        msg:"Logged Out",
+    });
 }
+
 module.exports = {
     home,
     signup,
-    login
+    login,
+    logout
 }

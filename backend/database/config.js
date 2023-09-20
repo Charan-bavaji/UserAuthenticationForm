@@ -31,8 +31,7 @@ UserSchema.methods.comparePassword = async function (entredPassword) {
     return await bcrypt.compare(entredPassword, this.password);
 };
 
-// JWT TOKEN
-
+// Creating  JWT TOKEN for current object user 
 UserSchema.methods.getJWTToken = function (){
     return jwt.sign({id:this._id}, process.env.JWT_SECRET,{
         expiresIn: process.env.JWT_EXPIRE,

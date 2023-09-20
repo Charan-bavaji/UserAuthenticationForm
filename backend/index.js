@@ -3,9 +3,11 @@ const app = express();
 const appRoute = require("./Routs/router.js")
 require('dotenv').config({path:'database/dont.env'});
 const port = process.env.PORT;
+const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false })); // or app.use(express.json()) for line 4, 5 and 6
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // route
 app.use('/api', appRoute);

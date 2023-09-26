@@ -28,8 +28,8 @@ const Login = () => {
                     <Link to="/profile">
                         <button id='loginbut'>Login</button>
                     </Link>
-                    <Link to='/recovery'>
-                        <span>Or login with social account</span>
+                    <Link to='/Recovery'>
+                        <span>Forgot password ?</span>
                     </Link>
                 </div>
                 <div className='socialBut'>

@@ -27,8 +27,8 @@
   flex-direction: column;
 }
 .wrap {
-  width: 25%;
-  height: 70%;
+  width: 23rem;
+  height: 32rem;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -39,8 +39,8 @@
   box-shadow: 8px 12.5px 10px 0.5px #737675;
 }
 #wrap1 {
-  width: 25%;
-  height: 55%;
+  width: 20rem;
+  height: 27rem;
   padding: 15px;
   display: flex;
   flex-direction: column;

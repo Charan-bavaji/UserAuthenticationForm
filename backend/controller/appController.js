@@ -57,7 +57,7 @@ const login = async (req, res) => {
                 return next(new ErrorHander("Invalied email or password", 401));
             }
             sendTockens(user, 201, res);
-            
+
         } catch (error) {
             res.status(401).json({ msg: error })
         }
@@ -66,14 +66,14 @@ const login = async (req, res) => {
 
 // Log Out
 
-const logout = (req,res,next)=>{
-    res.cookie("token",null,{
-        expires:new Date(Date.now()),
-        httpOnly:true,
+const logout = (req, res, next) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
     });
     res.status(200).json({
-        success:true,
-        msg:"Logged Out",
+        success: true,
+        msg: "Logged Out",
     });
 }
 

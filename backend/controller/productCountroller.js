@@ -4,17 +4,17 @@ const addProducts = async (req, res, next) => {
     const { name, prize, type } = req.body;
 
     if (!name || !prize || !type) {
-        return res.status(401).json({msg:"Products Filds cannot be empty"});
-    }else{
-        try{
+        return res.status(401).json({ message: "Products Filds cannot be empty" });
+    } else {
+        try {
             const product = await Products.create({
                 name,
                 prize,
                 type,
             })
-        return res.status(201).json({msg:"New Product added",product});
-        }catch(error){
-           res.status(400).json({ message: 'Cannot add Product',error});
+            return res.status(201).json({ message: "New Product added", product });
+        } catch (error) {
+            res.status(400).json({ message: 'Cannot add Product', error });
         }
     }
 }

@@ -13,21 +13,17 @@ const home = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-
     const { name, email, password, } = req.body;
 
     if (!name || !email || !password) {
-        res.status(401).json({ msg: "fields cannot be empty" })
+        res.status(401).json({ message: "Fields cannot be empty" })
     } else {
-
         try {
-            // Check if the email is already in use
             const existingUser = await UserModel.findOne({ email });
 
             if (existingUser) {
                 return res.status(400).json({ message: 'User already exists' });
             }
-            // Create a new user
             const user = await UserModel.create({
                 name,
                 email,
@@ -45,12 +41,12 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        res.status(401).json({ msg: "Enter email or password" });
+        res.status(401).json({ message: "Fields cannot be empty" });
     } else {
         try {
             const user = await UserModel.findOne({ email }).select("+password");
             if (!user) {
-                res.status(401).json({ msg: "Invalied email or password" })
+                res.status(401).json({ message: "Invalied email or password" })
             }
             const isPasswordMatched = await user.comparePassword(password);
             if (!isPasswordMatched) {
@@ -59,7 +55,7 @@ const login = async (req, res) => {
             sendTockens(user, 201, res);
 
         } catch (error) {
-            res.status(401).json({ msg: error })
+            res.status(401).json({ message: error })
         }
     }
 };
@@ -73,7 +69,7 @@ const logout = (req, res, next) => {
     });
     res.status(200).json({
         success: true,
-        msg: "Logged Out",
+        message: "Logged Out",
     });
 }
 

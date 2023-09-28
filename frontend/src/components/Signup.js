@@ -1,16 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "../styles/username.css";
 import { useState } from 'react';
+import Notify from './Notify';
 // import axios from 'axios';
 
 const Signup = () => {
-
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [response, setResponse] = useState("");
-  const [notify, setNotify] = useState(false);
+  const [notify, setNotify] = useState(true);
+
   const signreq = async () => {
     console.log(name, email, password);
     const response = await fetch("http://localhost:3001/api/user/signup", {
@@ -24,14 +26,14 @@ const Signup = () => {
         password,
       }),
     });
-
     const json = await response.json();
-    console.log(json)
     if (!json.success) {
-      setNotify(true);
+      setNotify(false);
       setResponse(json.message)
     } else {
+      setNotify(false);
       setResponse("Registred Successfully");
+      navigate('/profile')
     };
   }
 
@@ -82,9 +84,10 @@ const Signup = () => {
           <button>Twitter</button>
         </div>
       </div>
-      {
-        notify ? <span className=" absolute bottom-12 bg-slate-700 text-yellow-50 py-3 px-3 rounded-3xl">{response}</span> : <span></span>
-      }
+
+      <Notify
+        response={response}
+        notify={notify} />
     </div>
   )
 }

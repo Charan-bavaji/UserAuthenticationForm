@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import Notify from './Notify';
+
 const Login = () => {
     const navigate = useNavigate();
-
+    
     const [email, setEmail] = useState("");
     const [password, setpassword] = useState("");
-    const [respond, setRespond] = useState("");
-    const [notify, setNotify] = useState(false);
+    const [response, setResponse] = useState("");
+    const [notify, setNotify] = useState(true);
     const loginreq = async () => {
         const response = await fetch('http://localhost:3001/api/user/login', {
             method: "POST",
@@ -20,11 +22,13 @@ const Login = () => {
             })
         })
         const json = await response.json();
-        if (json.success) {
-            navigate('/profile');
+        if (!json.success) {
+            setResponse(json.message);
+            setNotify(false);
         } else {
-            setRespond(json.message);
-            setNotify(true);
+            setResponse(json.message);
+            setNotify(false);
+            navigate('/profile');
         }
     }
     return (
@@ -63,10 +67,9 @@ const Login = () => {
                     </div>
                 </div>
                 <div className='submit'>
-                    {/* <Link to="/profile"> */}
                     <button id='loginbut'
-                        onClick={loginreq}>Login</button>
-                    {/* </Link> */}
+                        onClick={loginreq}>Login
+                    </button>
                     <Link to='/Recovery'>
                         <span>Forgot password ?</span>
                     </Link>
@@ -76,7 +79,9 @@ const Login = () => {
                     <button>Twitter</button>
                 </div>
             </div>
-            {notify ? <span className=" absolute bottom-12 bg-slate-700 text-yellow-50 py-3 px-3 rounded-3xl">{respond}</span> : <span></span>}
+            <Notify
+                response={response}
+                notify={notify} />
         </div>
     )
 }

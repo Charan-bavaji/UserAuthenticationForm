@@ -1,15 +1,9 @@
 const UserModel = require('../database/config.js');
 const sendTockens = require('../utils/JwtTokens.js');
-
+const sendEmail = require('../utils/sendEmail.js');
 
 const home = async (req, res) => {
-    // try {
-    //     const users = await UserModel.find({});
-    //     res.json(users);
-    // } catch (err) {
-    //     console.error(err);
-    //     res.status(500).json({ error: 'Internal server error' });
-    // }
+
 };
 
 const signup = async (req, res) => {
@@ -37,6 +31,7 @@ const signup = async (req, res) => {
         }
     }
 };
+
 const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -46,16 +41,16 @@ const login = async (req, res) => {
         try {
             const user = await UserModel.findOne({ email }).select("+password");
             if (!user) {
-                res.status(401).json({ message: "Invalied email or password" })
+                return res.status(401).json({ message: "Invalied email or password" })
             }
             const isPasswordMatched = await user.comparePassword(password);
             if (!isPasswordMatched) {
-                return next(new ErrorHander("Invalied email or password", 401));
+                return res.status(401).json({ message: "Invalied email or password" })
             }
             sendTockens(user, 201, res);
 
         } catch (error) {
-            res.status(401).json({ message: error })
+            return res.status(500).json({ message: "internal server error" });
         }
     }
 };
@@ -73,9 +68,54 @@ const logout = (req, res, next) => {
     });
 }
 
+// forgotPasword
+
+const forgotPasword = async (req, res, next) => {
+    const { email } = req.body;
+    const user = await UserModel.findOne({
+        email
+    });
+    if (!user) {
+        return res.json({ message: "Enter email" });
+    }
+
+    //  Get ResetPassword Token
+
+    const resetToken = user.getResetPasswordToken();
+    console.log(resetToken);
+    await user.save({ validateBeforeSave: false });
+
+    const resetPasswordUrl = `${process.env.FRONTEND_URL}/api/resetpassword/${resetToken}`;
+    const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: `Authentication`,
+            message,
+        });
+        return res.status(201).json({
+            success: true,
+            message: `Email sent to ${user.email} successfully`,
+        });
+    } catch (error) {
+        user.resettoken = undefined;
+        user.resetexpiry = undefined;
+        console.log(user.resettoken);
+        await user.save({ validateBeforeSave: false });
+        return res.status(401).json({ message: error });
+    }
+}
+
+const resetPassword = async (req, res, next) => {
+
+}
+
 module.exports = {
     home,
     signup,
     login,
-    logout
+    logout,
+    forgotPasword,
+    resetPassword
 }

@@ -1,7 +1,7 @@
 const UserModel = require('../database/config.js');
 const sendTockens = require('../utils/JwtTokens.js');
 const sendEmail = require('../utils/sendEmail.js');
-
+const crypto = require("crypto");
 const home = async (req, res) => {
 
 };
@@ -72,6 +72,7 @@ const logout = (req, res, next) => {
 
 const forgotPasword = async (req, res, next) => {
     const { email } = req.body;
+    console.log(req.body);
     const user = await UserModel.findOne({
         email
     });
@@ -83,7 +84,9 @@ const forgotPasword = async (req, res, next) => {
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetPasswordUrl = `${process.env.FRONTEND_URL}/api/resetpassword/${resetToken}`;
+    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/resetpassword/${resetToken}`;
+    // const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetToken}`;
+    console.log(resetPasswordUrl);
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
 
     try {
@@ -92,6 +95,7 @@ const forgotPasword = async (req, res, next) => {
             subject: `Authentication`,
             message,
         });
+
         return res.status(201).json({
             success: true,
             message: `Email sent to ${user.email} successfully`,
@@ -106,7 +110,31 @@ const forgotPasword = async (req, res, next) => {
 }
 
 const resetPassword = async (req, res, next) => {
+    try {
+        const resettoken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+        console.log(req.params.token, "i am token");
 
+        const user = await UserModel.findOne({
+            resettoken,
+            resetexpiry: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: "Reset Password Token is invalid or has been expird" })
+        }
+        if (req.body.password !== req.body.conformPassword) {
+            return res.status(400).json({ message: "Password does not match" })
+        }
+        user.password = req.body.password;
+        user.resettoken = undefined;
+        user.resetexpiry = undefined;
+
+        await user.save();
+        sendTockens(user, 200, res);
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 module.exports = {

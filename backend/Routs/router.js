@@ -8,7 +8,7 @@ router.post('/user/signup', signup);
 router.post('/user/login', login);
 router.get("/logout", logout);
 router.post("/forgetpassword", forgotPasword);
-router.post("/resetpassword", resetPassword);
+router.put("/resetpassword/:token", resetPassword);
 router.post("/addProducts", addProducts);
 router.get("/products", isAuthenticatedUser, products);
 

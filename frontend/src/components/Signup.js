@@ -2,8 +2,6 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "../styles/username.css";
 import { useState } from 'react';
-import Notify from './Notify';
-// import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,30 +9,34 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [response, setResponse] = useState("");
-  const [notify, setNotify] = useState(true);
 
   const signreq = async () => {
+
     console.log(name, email, password);
-    const response = await fetch("http://localhost:3001/api/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
-    const json = await response.json();
-    if (!json.success) {
-      setNotify(false);
-      setResponse(json.message)
-    } else {
-      setNotify(false);
-      setResponse("Registred Successfully");
-      navigate('/profile')
-    };
+
+    try {
+      const response = await fetch("http://localhost:3001/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        navigate('/profile');
+      } else {
+        const errorMsg = await response.json();
+        console.log(errorMsg.message);
+        setResponse(errorMsg.message);
+      }
+    } catch (error) {
+      setResponse('An error ,Please try later');
+    }
   }
 
   return (
@@ -62,6 +64,7 @@ const Signup = () => {
             <span>Your Email </span>
             <input type="email"
               placeholder='email'
+              required
               onChange={(e) => { setEmail(e.target.value) }}
             />
           </div>
@@ -85,9 +88,9 @@ const Signup = () => {
         </div>
       </div>
 
-      <Notify
-        response={response}
-        notify={notify} />
+      {
+        response && <span className=" absolute flex justify-center text-center bottom-12 bg-[#faf1e2] text-red-500 py-3 px-3 rounded-3xl">{response}</span>
+      }
     </div>
   )
 }

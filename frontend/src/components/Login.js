@@ -1,36 +1,41 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import Notify from './Notify';
+// import Notify from './Notify';
 
 const Login = () => {
     const navigate = useNavigate();
-    
+
     const [email, setEmail] = useState("");
     const [password, setpassword] = useState("");
     const [response, setResponse] = useState("");
-    const [notify, setNotify] = useState(true);
+    // const [notify, setNotify] = useState(true);
     const loginreq = async () => {
-        const response = await fetch('http://localhost:3001/api/user/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
-        const json = await response.json();
-        if (!json.success) {
-            setResponse(json.message);
-            setNotify(false);
-        } else {
-            setResponse(json.message);
-            setNotify(false);
-            navigate('/profile');
+        try {
+            const response = await fetch('http://localhost:3001/api/user/login', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+            if (response.ok) {
+                navigate('/profile');
+
+            } else {
+                const errorData = await response.json();
+                console.log(errorData.message)
+                setResponse(errorData.message);
+            }
+        } catch (error) {
+            console.error('Error', error);
+            setResponse('An error, Please try again');
         }
     }
+
     return (
         <div className='Container'>
             <div id='wrap1'>
@@ -70,7 +75,7 @@ const Login = () => {
                     <button id='loginbut'
                         onClick={loginreq}>Login
                     </button>
-                    <Link to='/Recovery'>
+                    <Link to='/forgotpassword'>
                         <span>Forgot password ?</span>
                     </Link>
                 </div>
@@ -79,9 +84,10 @@ const Login = () => {
                     <button>Twitter</button>
                 </div>
             </div>
-            <Notify
-                response={response}
-                notify={notify} />
+            {
+                response && <span className=" absolute flex justify-center text-center bottom-12 bg-[#faf1e2] text-red-500 py-3 px-3 rounded-3xl">{response}</span>
+            }
+
         </div>
     )
 }

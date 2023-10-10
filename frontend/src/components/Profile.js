@@ -1,5 +1,6 @@
 import { React } from 'react'
 import { useNavigate } from 'react-router-dom';
+import profileImg from "../assets/profile.jpg"
 const Profile = () => {
   const navigate = useNavigate();
   const logOutMe = async () => {
@@ -19,11 +20,14 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex w-full h-[100vh] bg-slate-200 justify-center items-center">
-      <button className="w-20 h-10 bg-red-200 rounded-md hover:cursor-pointer "
-        onClick={logOutMe}>Log Out</button>
+    <div className="flex w-full h-[100vh] justify-center items-center bg-red-950">
+      <div className='flex w-[30rem] h-[28rem] justify-center items-center flex-col rounded-lg overflow-hidden gap-[2rem]'>
+        <img width={600} height={600} src={profileImg} alt='image' className=' rounded-xl overflow-hidden shadow-2xl' />
+        <button className="w-32 h-10 bg-black text-violet-50 rounded-md hover:cursor-pointer "
+          onClick={logOutMe}>Log Out</button>
+      </div>
     </div>
   )
 }
 
-export default Profile
+export default Profile;

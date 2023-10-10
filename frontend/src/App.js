@@ -5,6 +5,7 @@ import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import PageNotFound from './components/PageNotFound';
 import Login from './components/Login';
+import Reset from './components/Reset';
 import Home from './components/Home';
 
 function App() {
@@ -31,8 +32,12 @@ function App() {
       element: <Profile>Password</Profile>
     },
     {
-      path: '/recovery',
+      path: '/forgotpassword',
       element: <Recovery>Password</Recovery>
+    },
+    {
+      path: '/resetpassword',
+      element: <Reset>Password</Reset>
     },
     {
       path: '*',
@@ -47,3 +52,5 @@ function App() {
 }
 
 export default App;
+// to-do <^>
+// user is not logined or signed - he cannot acces profile 

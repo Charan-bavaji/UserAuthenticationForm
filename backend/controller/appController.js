@@ -76,13 +76,11 @@ const forgotPasword = async (req, res, next) => {
         email
     });
     if (!user) {
-        return res.json({ message: "Enter email" });
+        return res.json({ message: "Plaease enter valid email" });
     }
-
     //  Get ResetPassword Token
 
     const resetToken = user.getResetPasswordToken();
-    console.log(resetToken);
     await user.save({ validateBeforeSave: false });
 
     const resetPasswordUrl = `${process.env.FRONTEND_URL}/api/resetpassword/${resetToken}`;

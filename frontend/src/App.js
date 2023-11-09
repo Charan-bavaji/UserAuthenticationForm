@@ -24,24 +24,20 @@ function App() {
       element: <Login></Login>
     },
     {
-      path: '/register',
-      element: <div> Register Route</div>
-    },
-    {
       path: '/profile',
-      element: <Profile>Password</Profile>
+      element: <Profile></Profile>
     },
     {
       path: '/forgotpassword',
-      element: <Recovery>Password</Recovery>
+      element: <Recovery></Recovery>
     },
     {
-      path: '/resetpassword',
-      element: <Reset>Password</Reset>
+      path: 'api/resetpassword/:token',
+      element: <Reset></Reset>
     },
     {
       path: '*',
-      element: <PageNotFound>Password</PageNotFound>
+      element: <PageNotFound></PageNotFound>
     }
   ])
   return (

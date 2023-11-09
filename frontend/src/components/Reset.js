@@ -1,27 +1,32 @@
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Reset = () => {
+  const navigate = useNavigate();
   const [password, setpassword] = useState("");
-  const [comfpassword, setcomfpassword] = useState("");
+  const [conformPassword, setconformPassword] = useState("");
   const [response, setResponse] = useState("");
-  const [color, setColor] = useState('red')
+  const [color, setColor] = useState('red');
 
   const Send = async () => {
-    console.log(color);
+
     try {
-      const Responses = await fetch("http://localhost:3001/api/", {
-        method: "POST",
+      // http://localhost:3001/api/resetpassword/  
+      const Responses = await fetch("http://localhost:3001/api/resetpassword/<token>", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          password,
+          conformPassword
         }),
       });
+      // console.log(password, comfpassword);
       const msg = await Responses.json();
-      console.log(msg.message)
       if (Responses.ok) {
         setResponse(msg.message);
+        navigate("/profile");
         setColor('green');
       } else {
         setResponse(msg.message);
@@ -52,10 +57,10 @@ const Reset = () => {
           <span className=" relative top-1 bg-transparent text-[#757367]">Comform password</span>
           <input type="password"
             placeholder='comform password'
-            value={comfpassword}
+            value={conformPassword}
             className=" z-10 relative top-3 bg-transparent border-b-2 border-[#333] outline-none pl-[0px]"
             onChange={(e) => {
-              setcomfpassword(e.target.value)
+              setconformPassword(e.target.value)
             }}
           />
         </div>
